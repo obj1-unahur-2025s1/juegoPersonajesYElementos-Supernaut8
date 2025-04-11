@@ -1,9 +1,50 @@
-import example.pepita
+import personajesYCastillo.*
+import armas.*
 
-describe "group of tests for pepita" {
-
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+describe "Primer situación del juego : Lisa usando al personaje Floki" {
+  test "Lisa selecciona como su jugador a floki, este se encuentra con el castillo en 
+  primera instancia, luego con aurora, y finalmente con tipa, debido a que floki porta
+  una ballesta, el castillo diminuira su defensa a 146, en tanto que a tipa y aurora
+  no se les modifica nada" {
+    luisa.personajeActivo(floki)
+    floki.encontrarElemento(castillo)
+    floki.encontrarElemento(aurora)
+    floki.encontrarElemento(tipa)
+    assert.equals(146, castillo.nivelDeDefensa())
+    assert.that(aurora.estaViva())
   }
-
 }
+
+describe "Segunda situación del juego : Lisa usando al personaje Mario" {
+  test "Lisa selecciona como su jugador a mario, al igual que floki se  va encontrando con 
+  los elementos en el mismo orden, primero el castillo, del cual obtiene un valor de recoleccion
+  de 30, además realiza un trabajo sobre este, aumentando su nivel de defensa a 170.
+  Luego al encontrar a aurora, acumula un total de valor recolectado de 45, y finalmente al 
+  encontrar a tipa, obtiene un valor final de recoleccion de 61 lo que lo deja feliz, y al
+  realizar el trabajo sobre tipa, esta incrementa su altura a 9" {
+    luisa.personajeActivo(mario)
+    mario.encontrarElemento(castillo)
+    mario.encontrarElemento(aurora)
+    mario.encontrarElemento(tipa)
+    assert.equals(170, castillo.nivelDeDefensa())
+    assert.that(aurora.estaViva())
+    assert.equals(61, mario.valorRecolectado())
+    assert.that(mario.esFeliz())
+    assert.equals(9, tipa.altura())
+  }
+}  
+
+describe "Tercera situación del juego : Lisa usando al personaje floki con la jabalina como arma" {
+  test "Lisa selecciona como su jugador a floki, luego cambia su arma a la jabalina, y luego
+  se encuentra con aurora primero y luego con el castillo, la primera muere pero el castillo ya no
+  puede recibir daño debido a que la jabalina es de un solo uso" {
+    luisa.personajeActivo(floki)
+    floki.arma(jabalina)
+    floki.encontrarElemento(aurora)
+    floki.encontrarElemento(castillo)
+    assert.notThat(aurora.estaViva())
+    assert.equals(150, castillo.nivelDeDefensa())
+  }
+}
+
+
